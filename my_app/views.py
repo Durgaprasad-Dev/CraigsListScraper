@@ -11,7 +11,7 @@ def home(request):
     return render(request,'base.html')
 
 def  new_search(request):
-     # What we are typing in the search box we are retreiving
+     # What we are typing in the search box we are storing database via search Model
      search=request.POST.get('search')
      models.Search.objects.create(search=search)
      #print(quote_plus(search))
@@ -19,10 +19,12 @@ def  new_search(request):
      #print(final_url)
      response=requests.get(final_url)
      data=response.text
+     #print(data)
      soup=BeautifulSoup(data,features='html.parser')
+     #print(soup)
      #post_titles=soup.find_all('a',{'class':'result-title'})
      #print(post_titles[0].get('href'))
-     #print(data)
+
      post_listings=soup.find_all('li',{'class':'result-row'})
      #post_title=post_listings[0].find(class_='result-title').text
      #post_url=post_listings[0].find('a').get('href')
@@ -45,7 +47,7 @@ def  new_search(request):
                post_image_id=post.find(class_='result-image').get('data-ids').split(',')[0].split(':')[1]
                #print(post_image_id)
                post_image_url=BASE_IMAGE_URL.format(post_image_id)
-               print(post_image_url)
+               #print(post_image_url)
           else:
                post_image_url='https://craigslist.org/images/peace.jpg'
 
